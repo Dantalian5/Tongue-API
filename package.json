@@ -1,0 +1,34 @@
+{
+	"name": "tongue-api",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "RESTfull API with CURD",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"dev": "nodemon app.js"
+	},
+	"keywords": [
+		"api",
+		"RESTfull",
+		"CURD"
+	],
+	"author": "Marcos Valenzuela <https://marcosvalenzuela.netlify.app/>",
+	"license": "MIT",
+	"devDependencies": {
+		"nodemon": "^3.1.0"
+	},
+	"dependencies": {
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.19.1",
+		"helmet": "^7.1.0",
+		"mongoose": "^8.2.3",
+		"morgan": "^1.10.0"
+	}
+}
