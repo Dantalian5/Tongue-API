@@ -6,6 +6,8 @@ import compression from 'compression';
 import 'dotenv/config';
 // import routes
 import userRoutes from './routes/userRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import interactionRoutes from './routes/interactionRoutes.js';
 // import mongoDB
 import connectDB from './config/database.js';
 
@@ -24,6 +26,8 @@ app.use(express.urlencoded({extended: true}));
 
 // initialize routes
 app.use('/api', userRoutes);
+app.use('/api', postRoutes);
+app.use('/api', interactionRoutes);
 // set port
 const PORT = process.env.PORT || 3000;
 
