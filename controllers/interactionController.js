@@ -2,18 +2,23 @@ import Interaction from '../models/Interaction.js';
 import Post from '../models/Post.js';
 
 const InteractionController = {
-	// Crear una interacción
+	// Create interaction
 	createInteraction: async (req, res) => {
 		try {
-			const {type, userId, postId} = req.body;
-			const newInteraction = new Interaction({
+			const {type, userId, postId, content} = req.body;
+			const interactionData = {
 				type,
 				user: userId,
 				post: postId,
-			});
+			};
+			if (content) {
+				interactionData.content = content;
+			}
+
+			const newInteraction = new Interaction(interactionData);
 			const savedInteraction = await newInteraction.save();
 
-			// Añadir la interacción al post correspondiente
+			// Add interaction id to corresponding post
 			await Post.findByIdAndUpdate(postId, {
 				$push: {interactions: savedInteraction._id},
 			});
@@ -23,8 +28,16 @@ const InteractionController = {
 			res.status(400).json({message: error.message});
 		}
 	},
-
-	// Obtener una interacción por ID
+	// Get all Interactions
+	getAllInteractions: async (req, res) => {
+		try {
+			const interactions = await Interaction.find();
+			res.status(200).json(interactions);
+		} catch (error) {
+			res.status(500).json({message: error.message});
+		}
+	},
+	// Get interaction by ID
 	getInteractionById: async (req, res) => {
 		try {
 			const interaction = await Interaction.findById(req.params.id);
@@ -37,7 +50,7 @@ const InteractionController = {
 		}
 	},
 
-	// Actualizar una interacción
+	// Update interaction
 	updateInteraction: async (req, res) => {
 		try {
 			const interaction = await Interaction.findByIdAndUpdate(
@@ -54,7 +67,7 @@ const InteractionController = {
 		}
 	},
 
-	// Eliminar una interacción
+	// Delete interaction
 	deleteInteraction: async (req, res) => {
 		try {
 			const interaction = await Interaction.findByIdAndRemove(req.params.id);
@@ -62,7 +75,7 @@ const InteractionController = {
 				return res.status(404).json({message: 'Interaction not found'});
 			}
 
-			// Eliminar la referencia de esta interacción en el post correspondiente
+			// Delete reference in post
 			await Post.findByIdAndUpdate(interaction.post, {
 				$pull: {interactions: interaction._id},
 			});

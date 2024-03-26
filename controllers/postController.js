@@ -5,6 +5,7 @@ const PostController = {
 		try {
 			const post = new Post({
 				title: req.body.title,
+				content: req.body.content,
 				user: req.body.user,
 			});
 			const savedPost = await post.save();
@@ -49,8 +50,10 @@ const PostController = {
 
 	deletePost: async (req, res) => {
 		try {
-			await Post.findByIdAndDelete(req.params.id);
-			res.status(204).send();
+			const deletedPost = await Post.findByIdAndDelete(req.params.id);
+			if (!deletedPost)
+				return res.status(404).json({message: 'Post not found'});
+			res.status(200).json(deletedPost);
 		} catch (error) {
 			res.status(500).json({message: error.message});
 		}

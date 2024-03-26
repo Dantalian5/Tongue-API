@@ -4,7 +4,6 @@ const UserController = {
 	// Create new user
 	createUser: async (req, res) => {
 		try {
-			console.log(req.body);
 			const newUser = new User(req.body);
 			const savedUser = await newUser.save();
 			res.status(201).json(savedUser);
@@ -48,6 +47,7 @@ const UserController = {
 	},
 	// Delete an user
 	deleteUser: async (req, res) => {
+		console.log(req.params);
 		try {
 			const deletedUser = await User.findByIdAndDelete(req.params.id);
 			if (!deletedUser)

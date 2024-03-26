@@ -6,7 +6,14 @@ const interactionSchema = new mongoose.Schema({
 		enum: ['like', 'comment'],
 		required: true,
 	},
-	timestamp: {
+	content: {
+		type: String,
+	},
+	insertionDate: {
+		type: Date,
+		default: Date.now,
+	},
+	updateAt: {
 		type: Date,
 		default: Date.now,
 	},
@@ -20,6 +27,11 @@ const interactionSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Post',
 	},
+});
+// Middleware: Automatically update 'updatedAt' field
+interactionSchema.pre('save', function (next) {
+	this.updatedAt = new Date();
+	next();
 });
 
 const Interaction = mongoose.model('Interaction', interactionSchema);
