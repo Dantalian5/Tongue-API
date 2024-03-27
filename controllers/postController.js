@@ -1,12 +1,21 @@
 import Post from '../models/Post.js';
+import User from '../models/User.js';
 
 const PostController = {
 	createPost: async (req, res) => {
 		try {
+			const {title, content, user} = req.body;
+			// Validate if user exist
+			const userExists = await User.findById(user);
+			// Throw error if user not found
+			if (!userExists) {
+				return res.status(404).json({message: 'User id not found'});
+			}
+			// Create new post
 			const post = new Post({
-				title: req.body.title,
-				content: req.body.content,
-				user: req.body.user,
+				title: title,
+				content: content,
+				user: user,
 			});
 			const savedPost = await post.save();
 			res.status(201).json(savedPost);
@@ -17,7 +26,32 @@ const PostController = {
 
 	getAllPosts: async (req, res) => {
 		try {
-			const posts = await Post.find().populate('user');
+			const posts = await Post.find()
+				.populate('user')
+				.populate({
+					path: 'interactions',
+					populate: {
+						path: 'user',
+						model: 'User',
+					},
+				});
+			res.status(200).json(posts);
+		} catch (error) {
+			res.status(500).json({message: error.message});
+		}
+	},
+	searchAllPosts: async (req, res) => {
+		console.log(req.query);
+		try {
+			const posts = await Post.find()
+				.populate('user')
+				.populate({
+					path: 'interactions',
+					populate: {
+						path: 'user',
+						model: 'User',
+					},
+				});
 			res.status(200).json(posts);
 		} catch (error) {
 			res.status(500).json({message: error.message});
@@ -26,12 +60,19 @@ const PostController = {
 
 	getPostById: async (req, res) => {
 		try {
-			const post = await Post.findById(req.params.id).populate('user');
-			if (post) {
-				res.status(200).json(post);
-			} else {
+			const post = await Post.findById(req.params.id)
+				.populate('user')
+				.populate({
+					path: 'interactions',
+					populate: {
+						path: 'user',
+						model: 'User',
+					},
+				});
+			if (!post) {
 				res.status(404).json({message: 'Post not found'});
 			}
+			res.status(200).json(post);
 		} catch (error) {
 			res.status(500).json({message: error.message});
 		}
@@ -42,6 +83,9 @@ const PostController = {
 			const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
 				new: true,
 			});
+			if (!post) {
+				return res.status(404).json({message: 'post not found'});
+			}
 			res.status(200).json(post);
 		} catch (error) {
 			res.status(400).json({message: error.message});

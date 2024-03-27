@@ -1,25 +1,34 @@
 import Interaction from '../models/Interaction.js';
 import Post from '../models/Post.js';
+import User from '../models/User.js';
 
 const InteractionController = {
 	// Create interaction
 	createInteraction: async (req, res) => {
 		try {
-			const {type, userId, postId, content} = req.body;
+			const {type, content, user, post} = req.body;
+			// Validate if user and post exist
+			const [userExists, postExists] = await Promise.all([
+				User.findById(user),
+				Post.findById(post),
+			]);
+			// Throw error if user or post not found
+			if (!userExists || !postExists) {
+				return res.status(404).json({message: 'User or Post not found'});
+			}
+			// Create new interaction
 			const interactionData = {
 				type,
-				user: userId,
-				post: postId,
+				user: user,
+				post: post,
 			};
 			if (content) {
 				interactionData.content = content;
 			}
-
 			const newInteraction = new Interaction(interactionData);
 			const savedInteraction = await newInteraction.save();
-
-			// Add interaction id to corresponding post
-			await Post.findByIdAndUpdate(postId, {
+			// Update post interactions
+			await Post.findByIdAndUpdate(post, {
 				$push: {interactions: savedInteraction._id},
 			});
 
@@ -31,7 +40,7 @@ const InteractionController = {
 	// Get all Interactions
 	getAllInteractions: async (req, res) => {
 		try {
-			const interactions = await Interaction.find();
+			const interactions = await Interaction.find().populate('user');
 			res.status(200).json(interactions);
 		} catch (error) {
 			res.status(500).json({message: error.message});
@@ -40,7 +49,9 @@ const InteractionController = {
 	// Get interaction by ID
 	getInteractionById: async (req, res) => {
 		try {
-			const interaction = await Interaction.findById(req.params.id);
+			const interaction = await Interaction.findById(req.params.id).populate(
+				'user'
+			);
 			if (!interaction) {
 				return res.status(404).json({message: 'Interaction not found'});
 			}
@@ -70,17 +81,19 @@ const InteractionController = {
 	// Delete interaction
 	deleteInteraction: async (req, res) => {
 		try {
-			const interaction = await Interaction.findByIdAndRemove(req.params.id);
-			if (!interaction) {
+			const deletedInteraction = await Interaction.findByIdAndDelete(
+				req.params.id
+			);
+			if (!deletedInteraction) {
 				return res.status(404).json({message: 'Interaction not found'});
 			}
 
 			// Delete reference in post
-			await Post.findByIdAndUpdate(interaction.post, {
-				$pull: {interactions: interaction._id},
+			await Post.findByIdAndUpdate(deletedInteraction.post, {
+				$pull: {interactions: deletedInteraction._id},
 			});
 
-			res.status(204).send();
+			res.status(200).json(deletedInteraction);
 		} catch (error) {
 			res.status(500).json({message: error.message});
 		}

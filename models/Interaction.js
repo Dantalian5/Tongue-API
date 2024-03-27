@@ -13,7 +13,7 @@ const interactionSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-	updateAt: {
+	updatedAt: {
 		type: Date,
 		default: Date.now,
 	},
@@ -21,16 +21,18 @@ const interactionSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
+		required: true,
 	},
 	// Ref to post interacted
 	post: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Post',
+		required: true,
 	},
 });
 // Middleware: Automatically update 'updatedAt' field
-interactionSchema.pre('save', function (next) {
-	this.updatedAt = new Date();
+interactionSchema.pre('findOneAndUpdate', function (next) {
+	this.set({updatedAt: new Date()});
 	next();
 });
 
