@@ -41,15 +41,40 @@ const PostController = {
 		}
 	},
 	searchAllPosts: async (req, res) => {
+		// Use date format ISO 8601 : YYYY-MM-DD, e.g. 2020-01-01 or 2020-01-01T00:00:00.000Z
 		console.log(req.query);
+		const postQuery = {};
+		const interactionQuery = {};
+		const userQuery = {};
+		const {pstartDate, pendDate, city, istartDate, iendDate} = req.query;
+
+		if (pstartDate || pendDate) {
+			postQuery.insertionDate = {};
+			pstartDate && (postQuery.insertionDate.$gte = new Date(pstartDate));
+			pendDate && (postQuery.insertionDate.$lte = new Date(pendDate));
+		}
+
+		if (city) {
+			userQuery.city = city;
+		}
+		if (istartDate || iendDate) {
+			interactionQuery.insertionDate = {};
+			istartDate &&
+				(interactionQuery.insertionDate.$gte = new Date(istartDate));
+			iendDate && (interactionQuery.insertionDate.$lte = new Date(iendDate));
+		}
+		console.log(interactionQuery, userQuery, postQuery);
+
 		try {
-			const posts = await Post.find()
+			const posts = await Post.find(postQuery)
 				.populate('user')
 				.populate({
 					path: 'interactions',
+					match: interactionQuery,
 					populate: {
 						path: 'user',
 						model: 'User',
+						match: userQuery,
 					},
 				});
 			res.status(200).json(posts);
