@@ -41,31 +41,28 @@ const PostController = {
 		}
 	},
 	searchAllPosts: async (req, res) => {
-		// Use date format ISO 8601 : YYYY-MM-DD, e.g. 2020-01-01 or 2020-01-01T00:00:00.000Z
-		console.log(req.query);
-		const postQuery = {};
-		const interactionQuery = {};
-		const userQuery = {};
-		const {pstartDate, pendDate, city, istartDate, iendDate} = req.query;
-
-		if (pstartDate || pendDate) {
-			postQuery.insertionDate = {};
-			pstartDate && (postQuery.insertionDate.$gte = new Date(pstartDate));
-			pendDate && (postQuery.insertionDate.$lte = new Date(pendDate));
-		}
-
-		if (city) {
-			userQuery.city = city;
-		}
-		if (istartDate || iendDate) {
-			interactionQuery.insertionDate = {};
-			istartDate &&
-				(interactionQuery.insertionDate.$gte = new Date(istartDate));
-			iendDate && (interactionQuery.insertionDate.$lte = new Date(iendDate));
-		}
-		console.log(interactionQuery, userQuery, postQuery);
-
 		try {
+			// Use date format ISO 8601 : YYYY-MM-DD, e.g. 2020-01-01 or 2020-01-01T00:00:00.000Z
+			const postQuery = {};
+			const interactionQuery = {};
+			const userQuery = {};
+			const {pstartDate, pendDate, userCity, istartDate, iendDate} = req.query;
+
+			if (pstartDate || pendDate) {
+				postQuery.insertionDate = {};
+				pstartDate && (postQuery.insertionDate.$gte = new Date(pstartDate));
+				pendDate && (postQuery.insertionDate.$lte = new Date(pendDate));
+			}
+
+			if (userCity) {
+				userQuery.city = new RegExp(userCity, 'i');
+			}
+			if (istartDate || iendDate) {
+				interactionQuery.insertionDate = {};
+				istartDate &&
+					(interactionQuery.insertionDate.$gte = new Date(istartDate));
+				iendDate && (interactionQuery.insertionDate.$lte = new Date(iendDate));
+			}
 			const posts = await Post.find(postQuery)
 				.populate('user')
 				.populate({
@@ -77,7 +74,13 @@ const PostController = {
 						match: userQuery,
 					},
 				});
-			res.status(200).json(posts);
+			const filteredPosts = posts.map(post => {
+				post.interactions = post.interactions.filter(
+					interaction => interaction.user !== null
+				);
+				return post;
+			});
+			res.status(200).json(filteredPosts);
 		} catch (error) {
 			res.status(500).json({message: error.message});
 		}

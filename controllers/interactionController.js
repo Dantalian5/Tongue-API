@@ -46,6 +46,36 @@ const InteractionController = {
 			res.status(500).json({message: error.message});
 		}
 	},
+	// Search Interactions
+	searchAllinteractions: async (req, res) => {
+		try {
+			// Use date format ISO 8601 : YYYY-MM-DD, e.g. 2020-01-01 or 2020-01-01T00:00:00.000Z
+			const interactionQuery = {};
+			const userQuery = {};
+			const {istartDate, iendDate, userId, userName, userCity} = req.query;
+			if (userCity || userId || userName) {
+				userCity && (userQuery.city = new RegExp(userCity, 'i'));
+				userId && (userQuery._id = new RegExp(userId, 'i'));
+				userName && (userQuery.nickname = new RegExp(userName, 'i'));
+			}
+			if (istartDate || iendDate) {
+				interactionQuery.insertionDate = {};
+				istartDate &&
+					(interactionQuery.insertionDate.$gte = new Date(istartDate));
+				iendDate && (interactionQuery.insertionDate.$lte = new Date(iendDate));
+			}
+			const interactions = await Interaction.find(interactionQuery).populate({
+				path: 'user',
+				match: userQuery,
+			});
+			const filteredInteractions = interactions.filter(
+				interaction => interaction.user !== null
+			);
+			res.status(200).json(filteredInteractions);
+		} catch (error) {
+			res.status(500).json({message: error.message});
+		}
+	},
 	// Get interaction by ID
 	getInteractionById: async (req, res) => {
 		try {

@@ -20,6 +20,23 @@ const UserController = {
 			res.status(500).json({message: error.message});
 		}
 	},
+	// filter users
+	searchAllUsers: async (req, res) => {
+		try {
+			const userQuery = {};
+			const {userName, userAge, userMinAge, userMaxAge, userCity} = req.query;
+
+			userName && (userQuery.nickname = {$regex: userName, $options: 'i'});
+			userAge && (userQuery.age = {$eq: Number(req.query.userAge)});
+			userMinAge && (userQuery.age = {$gte: Number(req.query.userMinAge)});
+			userMaxAge && (userQuery.age = {$lte: Number(req.query.userMaxAge)});
+			userCity && (userQuery.city = {$regex: userCity, $options: 'i'});
+			const users = await User.find(userQuery);
+			res.status(200).json(users);
+		} catch (error) {
+			res.status(500).json({message: error.message});
+		}
+	},
 	// Get user by ID
 	getUserById: async (req, res) => {
 		try {
