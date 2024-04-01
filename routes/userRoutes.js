@@ -3,6 +3,15 @@ import UserController from '../controllers/userController.js';
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
 router.post('/users', UserController.createUser);
 router.get('/users', UserController.getAllUsers);
 router.get('/users/search', UserController.searchAllUsers);
