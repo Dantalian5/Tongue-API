@@ -43,7 +43,7 @@ const InteractionController = {
 			const interactions = await Interaction.find().populate('user');
 			res.status(200).json(interactions);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 	// Search Interactions
@@ -73,7 +73,7 @@ const InteractionController = {
 			);
 			res.status(200).json(filteredInteractions);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 	// Get interaction by ID
@@ -87,7 +87,7 @@ const InteractionController = {
 			}
 			res.status(200).json(interaction);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 
@@ -125,7 +125,7 @@ const InteractionController = {
 
 			res.status(200).json(deletedInteraction);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 };

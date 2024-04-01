@@ -37,7 +37,7 @@ const PostController = {
 				});
 			res.status(200).json(posts);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 	searchAllPosts: async (req, res) => {
@@ -82,7 +82,7 @@ const PostController = {
 			});
 			res.status(200).json(filteredPosts);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 
@@ -102,7 +102,7 @@ const PostController = {
 			}
 			res.status(200).json(post);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 
@@ -127,7 +127,7 @@ const PostController = {
 				return res.status(404).json({message: 'Post not found'});
 			res.status(200).json(deletedPost);
 		} catch (error) {
-			res.status(500).json({message: error.message});
+			res.status(400).json({message: error.message});
 		}
 	},
 };
