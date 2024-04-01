@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // initialize routes
+app.get('/', (req, res) => res.send('Express on Vercel'));
 app.use('/api', userRoutes);
 app.use('/api', postRoutes);
 app.use('/api', interactionRoutes);
