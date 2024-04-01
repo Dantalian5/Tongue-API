@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": ""
 	},
-	"main": "api/app.js",
+	"main": "app.js",
 	"scripts": {
 		"start": "node app.js",
 		"dev": "nodemon app.js",
