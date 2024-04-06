@@ -8,6 +8,10 @@ import 'dotenv/config';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import interactionRoutes from './routes/interactionRoutes.js';
+// import swagger
+// import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDoc from './docs/swagger.json' assert {type: 'json'};
 // import mongoDB
 import connectDB from './config/database.js';
 // create express app
@@ -35,10 +39,6 @@ const PORT = process.env.PORT || 3000;
 //
 //
 //
-// import swagger
-// import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDoc from './docs/swagger.json' assert {type: 'json'};
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 //
