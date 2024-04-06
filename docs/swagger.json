@@ -1,0 +1,75 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Esta es una API de ejemplo para gestionar usuarios.",
+		"version": "1.0.0",
+		"title": "API de Gestión de Usuarios"
+	},
+	"host": "localhost:3000",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "usuario",
+			"description": "Operaciones sobre usuarios"
+		}
+	],
+	"schemes": ["http"],
+	"paths": {
+		"/usuarios": {
+			"get": {
+				"tags": ["usuario"],
+				"summary": "Obtiene una lista de usuarios",
+				"description": "Devuelve un listado de todos los usuarios",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Una lista de usuarios",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Usuario"
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["usuario"],
+				"summary": "Crea un nuevo usuario",
+				"description": "Añade un nuevo usuario a la lista",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "usuario",
+						"description": "El usuario a crear",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/Usuario"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Usuario creado"
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Usuario": {
+			"type": "object",
+			"required": ["nombre", "email"],
+			"properties": {
+				"nombre": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
