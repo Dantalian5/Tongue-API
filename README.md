@@ -29,23 +29,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://tongue-api.vercel.app/">
     <img src="public/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Tongue_API</h3>
 
   <p align="center">
-    project_description
+    RESTful API with full CRUD (Create, Read, Update, Delete) capabilities was developed as part of the "Tongue" Node.js project for <a href="https://www.start2impact.it">start2impact</a>. 
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://tongue-api.vercel.app/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://tongue-api.vercel.app/">Live Server</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/Dantalian5/Tongue-API/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/Dantalian5/Tongue-API/issues">Request Feature</a>
   </p>
 </div>
 
@@ -79,22 +79,24 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+This RESTful API with full CRUD (Create, Read, Update, Delete) capabilities was developed as part of the "Tongue" Node.js project for start2impact. It's designed to provide a robust and flexible backend solution, enabling seamless data management and interaction for applications. The API is crafted to support various frontend technologies or third-party services, offering a well-documented and user-friendly interface for developers. Whether you're building a web, mobile, or desktop application, the Tongue API facilitates efficient data handling and integration, enhancing the overall development workflow.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-- [![Next][Next.js]][Next-url]
-- [![React][React.js]][React-url]
-- [![Vue][Vue.js]][Vue-url]
-- [![Angular][Angular.io]][Angular-url]
-- [![Svelte][Svelte.dev]][Svelte-url]
-- [![Laravel][Laravel.com]][Laravel-url]
-- [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-- [![JQuery][JQuery.com]][JQuery-url]
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- MongoDB Atlas
+- [Redoc](https://redocly.com/)
+
+#### Libraries
+
+- [Mongoose](https://mongoosejs.com/)
+- [Helmet](https://helmetjs.github.io/)
+- [Cors](https://www.npmjs.com/package/cors)
+- [Morgan](https://www.npmjs.com/package/morgan)
+- [Compress](https://www.npmjs.com/package/compression)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,13 +104,12 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
+- Node.js version 14 or higher
+  ```sh
+  node -v
+  ```
 - npm
   ```sh
   npm install npm@latest -g
@@ -116,18 +117,36 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/Dantalian5/Tongue-API.git
    ```
-3. Install NPM packages
+   and navigate to the project directory
+   ```sh
+   cd Tongue-API
+   ```
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+3. Create a .env file in the root directory of the project to store your environment variables.
+   ```sh
+   touch .env
+   ```
+4. Enter your API Key:
+   For this project, you need access to the MongoDB NoSQL service to manage the databases. You can use a free MongoDB account, or alternatively, you can utilize the sample server provided with the project for a hassle-free setup.
+
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   DATABASE_URL = <Your MongoDB Atlas URL + Api Key>;
+   DATABASE_URL_STRING = <Your MongoDB Atlas URL + Api Key>;
+   PORT = <Your PORT || 3000>>;
+   ```
+
+5. Update the necessary configurations in your config.js or any other configuration files your project might have. If you have database connections or external service configurations, specify them in the .env file.
+
+6. Start the server using nodemon
+   ```sh
+   npm run dev
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -138,7 +157,7 @@ This is an example of how to list things you need to use the software and how to
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://tongue-api.vercel.app/docs/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,12 +165,17 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
+- [x] Create a RESTfull API
+- [x] Add CRUD (Create, Read, Update, Delete) capabilities
+- [x] Create proper project structure
+- [x] Add Documentation
+  - [x] Add Openapi specifications
+  - [x] Add Documentation using ReDoc
+- [x] Add tests
+  - [x] Unitary tests
+  - [ ] Integration tests
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Dantalian5/Tongue-API/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -176,7 +200,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -184,9 +208,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+- Website - [Marcos Valenzuela](https://marcosvalenzuela.netlify.app)
+- Frontend Mentor - [@Dantalian5](https://www.frontendmentor.io/profile/Dantalian5)
+- Github - [@Dantalian5](https://github.com/Dantalian5)
+- Linkedin - [Marcos Valenzuela](https://www.linkedin.com/in/marcos-valenzuela-coding)
+- Twitter - [@Dantalian5](https://www.twitter.com/Dantalian5)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/Dantalian5/Tongue-API](https://github.com/Dantalian5/Tongue-API)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -194,41 +222,23 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 ## Acknowledgments
 
-- []()
-- []()
-- []()
+- [start2impact](https://www.start2impact.it)
+- [RealFaviconGenerator](https://realfavicongenerator.net)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/Dantalian5/Tongue-API.svg?style=for-the-badge
+[contributors-url]: https://github.com/Dantalian5/Tongue-API/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Dantalian5/Tongue-API.svg?style=for-the-badge
+[forks-url]: https://github.com/Dantalian5/Tongue-API/network/members
+[stars-shield]: https://img.shields.io/github/stars/Dantalian5/Tongue-API.svg?style=for-the-badge
+[stars-url]: https://github.com/Dantalian5/Tongue-API/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Dantalian5/Tongue-API.svg?style=for-the-badge
+[issues-url]: https://github.com/Dantalian5/Tongue-API/issues
+[license-shield]: https://img.shields.io/github/license/Dantalian5/Tongue-API.svg?style=for-the-badge
+[license-url]: https://github.com/Dantalian5/Tongue-API/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+[linkedin-url]: https://linkedin.com/in/marcos-valenzuela-coding
