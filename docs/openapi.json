@@ -94,7 +94,54 @@
 			"get": {
 				"tags": ["Users"],
 				"summary": "Search users",
-				"description": "Searches for users based on provided query parameters.",
+				"description": "Searches for users based on provided query parameters. EX: `api/users/search?userName=jon`",
+				"parameters": [
+					{
+						"name": "userName",
+						"in": "query",
+						"description": "The nickname of the user to filter by.",
+						"schema": {
+							"type": "string",
+							"example": "JohnDoe"
+						}
+					},
+					{
+						"name": "userAge",
+						"in": "query",
+						"description": "The exact age of the user to filter by.",
+						"schema": {
+							"type": "integer",
+							"example": 30
+						}
+					},
+					{
+						"name": "userMinAge",
+						"in": "query",
+						"description": "The minimum age of the user to filter by.",
+						"schema": {
+							"type": "integer",
+							"example": 25
+						}
+					},
+					{
+						"name": "userMaxAge",
+						"in": "query",
+						"description": "The maximum age of the user to filter by.",
+						"schema": {
+							"type": "integer",
+							"example": 35
+						}
+					},
+					{
+						"name": "userCity",
+						"in": "query",
+						"description": "The city of the user to filter by.",
+						"schema": {
+							"type": "string",
+							"example": "New York"
+						}
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "Users retrieved successfully based on the search criteria.",
@@ -282,7 +329,58 @@
 			"get": {
 				"tags": ["Posts"],
 				"summary": "Search for posts",
-				"description": "Searches for posts based on various criteria.",
+				"description": "Searches for posts based on various criteria. For example, to search for posts from Paris between March 1st and March 28th, 2024, and interactions between March 1st and March 30th, 2024, the request URL would be: `/api/posts/search?pstartDate=2024-03-01&pendDate=2024-03-28&istartDate=2024-03-01&iendDate=2024-03-30&userCity=Paris`",
+				"parameters": [
+					{
+						"name": "pstartDate",
+						"in": "query",
+						"description": "Start date to filter posts, format YYYY-MM-DD.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "pendDate",
+						"in": "query",
+						"description": "End date to filter posts, format YYYY-MM-DD.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "userCity",
+						"in": "query",
+						"description": "City of the user to filter posts.",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "istartDate",
+						"in": "query",
+						"description": "Start date to filter interactions, format YYYY-MM-DD.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "iendDate",
+						"in": "query",
+						"description": "End date to filter interactions, format YYYY-MM-DD.",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "A list of posts that match the search criteria.",
@@ -480,7 +578,56 @@
 			"get": {
 				"tags": ["Interactions"],
 				"summary": "Search for interactions",
-				"description": "Searches for interactions based on various criteria.",
+				"description": "Searches for interactions based on various criteria. For example, to search for interactions by users from 'Paris' or with specific 'userId' or 'userName', and within a certain date range, the request URL would be: `/api/interactions/search?istartDate=2024-03-01&iendDate=2024-03-30&userId=12345&userName=JohnDoe&userCity=Paris`",
+				"parameters": [
+					{
+						"name": "istartDate",
+						"in": "query",
+						"description": "Start date to filter interactions, format YYYY-MM-DD.",
+						"schema": {
+							"type": "string",
+							"format": "date",
+							"example": "2024-03-01"
+						}
+					},
+					{
+						"name": "iendDate",
+						"in": "query",
+						"description": "End date to filter interactions, format YYYY-MM-DD.",
+						"schema": {
+							"type": "string",
+							"format": "date",
+							"example": "2024-03-30"
+						}
+					},
+					{
+						"name": "userId",
+						"in": "query",
+						"description": "The ID of the user to filter interactions.",
+						"schema": {
+							"type": "string",
+							"example": "12345"
+						}
+					},
+					{
+						"name": "userName",
+						"in": "query",
+						"description": "The name of the user to filter interactions.",
+						"schema": {
+							"type": "string",
+							"example": "JohnDoe"
+						}
+					},
+					{
+						"name": "userCity",
+						"in": "query",
+						"description": "The city of the user to filter interactions.",
+						"schema": {
+							"type": "string",
+							"example": "Paris"
+						}
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "A list of interactions that match the search criteria.",

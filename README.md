@@ -66,7 +66,11 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#api-documentation">API Documentation</a></li>
+      </ul></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -155,7 +159,32 @@ This RESTful API with full CRUD (Create, Read, Update, Delete) capabilities was 
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Once the server is set up, you will be able to make requests to an API that supports CRUD functionalities using GET, POST, PUT, and DELETE methods. Additionally, you can filter the content to suit your needs.
+
+### API Documentation
+
+The Tongue API provides a robust set of endpoints for managing users, posts, and interactions, offering comprehensive CRUD functionalities. Below is a summary of the primary capabilities of this API:
+
+#### Users
+
+- Create a User `(POST /api/users)`: Allows for the creation of a new user, requiring details such as nickname, age, and city.
+- Retrieve All Users `(GET /api/users)`: Fetches a list of all users, with the option to search based on specific criteria `(GET /api/users/search)`.
+- Retrieve, Update, and Delete a User by ID: Specific user details can be fetched `(GET /api/users/{id})`, updated `(PUT /api/users/{id})`, or deleted `(DELETE /api/users/{id})` using their unique ID.
+
+#### Post
+
+- Create a Post `(POST /api/posts)`: Enables the creation of a new post, linked to an existing user.
+- Retrieve All Posts `(GET /api/posts)`: Obtains a list of all posts, supporting a 'minify' query for less detailed responses.
+- Search Posts `(GET /api/posts/search)`: Allows for the retrieval of posts based on various search criteria.
+- Retrieve, Update, and Delete a Post by ID: Similar to users, individual posts can be accessed, modified, or removed using their unique ID `(GET, PUT, DELETE on /api/posts/{id})`.
+
+#### Interactions
+
+- Create an Interaction `(POST /api/interactions)`: Facilitates the addition of a new interaction, such as a like or comment, to a post by a user.
+- Retrieve All Interactions `(GET /api/interactions)`: Lists all interactions, with a 'minify' option for condensed output.
+- Search, Retrieve, Update, and Delete an Interaction: Detailed interaction data can be searched, accessed, altered, or deleted, all identified by a unique ID `(GET, PUT, DELETE on /api/interactions/{id})`.
+
+The API is designed to be intuitive, ensuring ease of use while providing detailed responses and error handling to facilitate integration and interaction with various front-end systems or third-party services.
 
 _For more examples, please refer to the [Documentation](https://tongue-api.vercel.app/docs/)_
 
