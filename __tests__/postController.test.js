@@ -71,7 +71,7 @@ describe('PostController', () => {
 	});
 	describe('getAllPost', () => {
 		it('should retrieve all posts and return them', async () => {
-			const req = {};
+			const req = {query: {minify: 'true'}};
 			const res = {
 				json: jest.fn(),
 				status: jest.fn().mockReturnThis(),

@@ -40,7 +40,13 @@ const InteractionController = {
 	// Get all Interactions
 	getAllInteractions: async (req, res) => {
 		try {
-			const interactions = await Interaction.find().populate('user');
+			const {minify} = req.query;
+			let interactions;
+			if (minify && minify === 'true') {
+				interactions = await Interaction.find();
+			} else {
+				interactions = await Interaction.find().populate('user');
+			}
 			res.status(200).json(interactions);
 		} catch (error) {
 			res.status(400).json({message: error.message});
@@ -79,9 +85,15 @@ const InteractionController = {
 	// Get interaction by ID
 	getInteractionById: async (req, res) => {
 		try {
-			const interaction = await Interaction.findById(req.params.id).populate(
-				'user'
-			);
+			const {minify} = req.query;
+			let interaction;
+			if (minify && minify === 'true') {
+				interaction = await Interaction.findById(req.params.id);
+			} else {
+				interaction = await Interaction.findById(req.params.id).populate(
+					'user'
+				);
+			}
 			if (!interaction) {
 				return res.status(404).json({message: 'Interaction not found'});
 			}
@@ -90,7 +102,6 @@ const InteractionController = {
 			res.status(400).json({message: error.message});
 		}
 	},
-
 	// Update interaction
 	updateInteraction: async (req, res) => {
 		try {

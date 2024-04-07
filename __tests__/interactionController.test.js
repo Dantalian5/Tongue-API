@@ -83,7 +83,7 @@ describe('InteractionController', () => {
 	});
 	describe('getAllInteractions', () => {
 		it('should retrieve all interactions', async () => {
-			const req = {};
+			const req = {query: {minify: 'true'}};
 			const res = {
 				json: jest.fn(),
 				status: jest.fn().mockReturnThis(),

@@ -17,7 +17,6 @@ import connectDB from './config/database.js';
 const app = express();
 // connect to mongoDB
 connectDB();
-
 // initialize middlewares
 app.use(helmet());
 app.use(cors());
@@ -25,7 +24,6 @@ app.use(morgan('dev'));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
 // initialice app for vercel test on deployment
 app.get('/', (req, res) => res.send('Express on Vercel'));
 // initialize routes
@@ -44,18 +42,12 @@ app.use(
 		},
 	})
 );
-
+// create variables for redoc & assets paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// Serve redoc json used on documentation
-app.get('/docs/swagger.json', (req, res) => {
-	res.sendFile(path.join(__dirname, 'docs', 'swagger.json'));
-});
-
-// Serve redoc html
-app.get('/docs', (req, res) => {
-	res.sendFile(path.join(__dirname, 'docs', 'index.html'));
-});
+// Serve documentation & assets using redoc & express.static
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/docs', express.static(path.join(__dirname, 'docs')));
 // initialize server
 app.listen(PORT, () => {
 	console.log(`Server running on port: ${PORT}`);

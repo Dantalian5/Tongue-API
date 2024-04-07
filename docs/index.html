@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Redoc</title>
-		<!-- needed for adaptive design -->
+		<title>Tongue-API | Documentation</title>
 		<meta charset="utf-8" />
 		<meta
 			name="viewport"
@@ -10,19 +9,29 @@
 		<link
 			href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700"
 			rel="stylesheet" />
-
-		<!--
-    Redoc doesn't change outer page styles
-    -->
 		<style>
 			body {
 				margin: 0;
 				padding: 0;
 			}
 		</style>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="/favicon-32x32.png" />
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="/favicon-16x16.png" />
+		<link
+			rel="mask-icon"
+			href="/favicon-svg.svg"
+			color="#5bbad5" />
 	</head>
 	<body>
-		<redoc spec-url="./swagger.json"></redoc>
+		<redoc spec-url="./openapi.json"></redoc>
 		<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
 	</body>
 </html>

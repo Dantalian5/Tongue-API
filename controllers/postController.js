@@ -26,15 +26,22 @@ const PostController = {
 
 	getAllPosts: async (req, res) => {
 		try {
-			const posts = await Post.find()
-				.populate('user')
-				.populate({
-					path: 'interactions',
-					populate: {
-						path: 'user',
-						model: 'User',
-					},
-				});
+			const {minify} = req.query;
+			let posts;
+			if (minify && minify === 'true') {
+				posts = await Post.find();
+			} else {
+				posts = await Post.find()
+					.populate('user')
+					.populate({
+						path: 'interactions',
+						populate: {
+							path: 'user',
+							model: 'User',
+						},
+					});
+			}
+
 			res.status(200).json(posts);
 		} catch (error) {
 			res.status(400).json({message: error.message});
@@ -85,20 +92,25 @@ const PostController = {
 			res.status(400).json({message: error.message});
 		}
 	},
-
 	getPostById: async (req, res) => {
 		try {
-			const post = await Post.findById(req.params.id)
-				.populate('user')
-				.populate({
-					path: 'interactions',
-					populate: {
-						path: 'user',
-						model: 'User',
-					},
-				});
+			const {minify} = req.query;
+			let post;
+			if (minify && minify === 'true') {
+				post = await Post.findById(req.params.id);
+			} else {
+				post = await Post.findById(req.params.id)
+					.populate('user')
+					.populate({
+						path: 'interactions',
+						populate: {
+							path: 'user',
+							model: 'User',
+						},
+					});
+			}
 			if (!post) {
-				res.status(404).json({message: 'Post not found'});
+				return res.status(404).json({message: 'Post not found'});
 			}
 			res.status(200).json(post);
 		} catch (error) {

@@ -1,0 +1,698 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Tongue API | Documentation",
+		"version": "1.0.0",
+		"description": "Tongue RESTfull API with CURD",
+		"contact": {
+			"name": "Marcos Valenzuela",
+			"url": "https://marcosvalenzuela.netlify.app/"
+		},
+		"x-logo": {
+			"url": "/favicon.png",
+			"altText": "Tongue logo"
+		}
+	},
+	"license": {
+		"name": "MIT",
+		"url": "https://opensource.org/licenses/MIT"
+	},
+	"x-tags": [
+		{
+			"name": "Users",
+			"description": "All operations related to users"
+		},
+		{
+			"name": "Posts",
+			"description": "All operations related to posts"
+		},
+		{
+			"name": "Interactions",
+			"description": "All operations related to interactions"
+		}
+	],
+	"paths": {
+		"/users": {
+			"post": {
+				"tags": ["Users"],
+				"summary": "Create a new user",
+				"description": "Creates a new user in the database.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "User created successfully."
+					},
+					"400": {
+						"description": "Error occurred while creating the user."
+					}
+				}
+			},
+			"get": {
+				"tags": ["Users"],
+				"summary": "Get all users",
+				"description": "Retrieves a list of all users.",
+				"responses": {
+					"200": {
+						"description": "List of users retrieved successfully.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/User"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred while fetching the users."
+					}
+				}
+			}
+		},
+		"/users/search": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Search users",
+				"description": "Searches for users based on provided query parameters.",
+				"responses": {
+					"200": {
+						"description": "Users retrieved successfully based on the search criteria.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/User"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred during the search."
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Get a user by ID",
+				"description": "Retrieves a single user by their unique ID.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "Unique ID of the user to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User retrieved successfully.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found."
+					},
+					"400": {
+						"description": "Error occurred while fetching the user."
+					}
+				}
+			},
+			"put": {
+				"tags": ["Users"],
+				"summary": "Update a user",
+				"description": "Updates the information of an existing user.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "Unique ID of the user to update",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User updated successfully."
+					},
+					"404": {
+						"description": "User not found."
+					},
+					"400": {
+						"description": "Error occurred while updating the user."
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Users"],
+				"summary": "Delete a user",
+				"description": "Deletes an existing user from the database.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "Unique ID of the user to delete",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User deleted successfully."
+					},
+					"404": {
+						"description": "User not found."
+					},
+					"400": {
+						"description": "Error occurred while deleting the user."
+					}
+				}
+			}
+		},
+		"/posts": {
+			"post": {
+				"tags": ["Posts"],
+				"summary": "Create a new post",
+				"description": "Creates a new post associated with an existing user.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Post"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Post created successfully."
+					},
+					"400": {
+						"description": "Error occurred while creating the post."
+					},
+					"404": {
+						"description": "User not found."
+					}
+				}
+			},
+			"get": {
+				"tags": ["Posts"],
+				"summary": "Get all posts",
+				"description": "Retrieves a list of all posts.",
+				"parameters": [
+					{
+						"name": "minify",
+						"in": "query",
+						"required": false,
+						"description": "When set to 'true', returns a list of posts without populated details for 'user' and 'interactions'.",
+						"schema": {
+							"type": "string",
+							"enum": ["true", "false"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A list of posts.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Post"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred while fetching the posts."
+					}
+				}
+			}
+		},
+		"/posts/search": {
+			"get": {
+				"tags": ["Posts"],
+				"summary": "Search for posts",
+				"description": "Searches for posts based on various criteria.",
+				"responses": {
+					"200": {
+						"description": "A list of posts that match the search criteria.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Post"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred during the search."
+					}
+				}
+			}
+		},
+		"/posts/{id}": {
+			"get": {
+				"tags": ["Posts"],
+				"summary": "Get a post by ID",
+				"description": "Retrieves a single post by its ID.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the post to retrieve.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "minify",
+						"in": "query",
+						"required": false,
+						"description": "When set to 'true', returns a minimized version of the post without populated details.",
+						"schema": {
+							"type": "string",
+							"enum": ["true", "false"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The post details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Post"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Post not found."
+					},
+					"400": {
+						"description": "Error occurred while fetching the post."
+					}
+				}
+			},
+			"put": {
+				"tags": ["Posts"],
+				"summary": "Update a post",
+				"description": "Updates the details of an existing post.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the post to update.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Post"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Post updated successfully."
+					},
+					"404": {
+						"description": "Post not found."
+					},
+					"400": {
+						"description": "Error occurred while updating the post."
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Posts"],
+				"summary": "Delete a post",
+				"description": "Deletes a post from the database.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the post to delete.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Post deleted successfully."
+					},
+					"404": {
+						"description": "Post not found."
+					},
+					"400": {
+						"description": "Error occurred while deleting the post."
+					}
+				}
+			}
+		},
+		"/interactions": {
+			"post": {
+				"tags": ["Interactions"],
+				"summary": "Create a new interaction",
+				"description": "Creates a new interaction associated with an existing user and post.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Interaction"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Interaction created successfully."
+					},
+					"400": {
+						"description": "Error occurred while creating the interaction."
+					},
+					"404": {
+						"description": "User or Post not found."
+					}
+				}
+			},
+			"get": {
+				"tags": ["Interactions"],
+				"summary": "Get all interactions",
+				"description": "Retrieves a list of all interactions.",
+				"parameters": [
+					{
+						"name": "minify",
+						"in": "query",
+						"required": false,
+						"description": "When set to 'true', returns a list of interactions without populated details for 'user'.",
+						"schema": {
+							"type": "string",
+							"enum": ["true", "false"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A list of interactions.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Interaction"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred while fetching the interactions."
+					}
+				}
+			}
+		},
+		"/interactions/search": {
+			"get": {
+				"tags": ["Interactions"],
+				"summary": "Search for interactions",
+				"description": "Searches for interactions based on various criteria.",
+				"responses": {
+					"200": {
+						"description": "A list of interactions that match the search criteria.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Interaction"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Error occurred during the search."
+					}
+				}
+			}
+		},
+		"/interactions/{id}": {
+			"get": {
+				"tags": ["Interactions"],
+				"summary": "Get an interaction by ID",
+				"description": "Retrieves a single interaction by its ID.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the interaction to retrieve.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "minify",
+						"in": "query",
+						"required": false,
+						"description": "When set to 'true', returns a minimized version of the interaction without populated details.",
+						"schema": {
+							"type": "string",
+							"enum": ["true", "false"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The interaction details.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Interaction"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Interaction not found."
+					},
+					"400": {
+						"description": "Error occurred while fetching the interaction."
+					}
+				}
+			},
+			"put": {
+				"tags": ["Interactions"],
+				"summary": "Update an interaction",
+				"description": "Updates the details of an existing interaction.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the interaction to update.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Interaction"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Interaction updated successfully."
+					},
+					"404": {
+						"description": "Interaction not found."
+					},
+					"400": {
+						"description": "Error occurred while updating the interaction."
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Interactions"],
+				"summary": "Delete an interaction",
+				"description": "Deletes an interaction from the database.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the interaction to delete.",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Interaction deleted successfully."
+					},
+					"404": {
+						"description": "Interaction not found."
+					},
+					"400": {
+						"description": "Error occurred while deleting the interaction."
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"User": {
+				"x-tags": ["users"],
+				"type": "object",
+				"properties": {
+					"nickname": {
+						"type": "string",
+						"description": "The name or nickname of the user."
+					},
+					"age": {
+						"type": "number",
+						"description": "The age of the user."
+					},
+					"city": {
+						"type": "string",
+						"description": "The city where the user lives."
+					}
+				},
+				"required": ["nickname", "age", "city"]
+			},
+			"Post": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string",
+						"description": "The title of the post."
+					},
+					"content": {
+						"type": "string",
+						"description": "The content of the post."
+					},
+					"insertionDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "The creation date of the post."
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "The last update date of the post."
+					},
+					"user": {
+						"type": "string",
+						"description": "The ID of the user associated with the post."
+					},
+					"interactions": {
+						"type": "array",
+						"description": "A list of interaction IDs associated with the post.",
+						"items": {
+							"type": "string"
+						}
+					}
+				},
+				"required": ["title", "content", "user"]
+			},
+			"Interaction": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": ["like", "comment"],
+						"description": "The type of interaction, which can be either like or comment."
+					},
+					"content": {
+						"type": "string",
+						"description": "The content of the interaction, applicable mainly for comments."
+					},
+					"insertionDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "The date and time when the interaction was created."
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "The date and time when the interaction was last updated."
+					},
+					"user": {
+						"type": "string",
+						"format": "uuid",
+						"description": "The ID of the user who made the interaction."
+					},
+					"post": {
+						"type": "string",
+						"format": "uuid",
+						"description": "The ID of the post that was interacted with."
+					}
+				},
+				"required": ["type", "user", "post"]
+			}
+		}
+	}
+}
