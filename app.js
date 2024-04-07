@@ -8,7 +8,9 @@ import 'dotenv/config';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import interactionRoutes from './routes/interactionRoutes.js';
-// import swagger
+// import path
+import {fileURLToPath} from 'url';
+import path from 'path';
 // import mongoDB
 import connectDB from './config/database.js';
 // create express app
@@ -42,13 +44,17 @@ app.use(
 		},
 	})
 );
-// serve redoc json to used on documentation
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Serve redoc json used on documentation
 app.get('/docs/swagger.json', (req, res) => {
-	res.sendFile('swagger.json', {root: './docs'});
+	res.sendFile(path.join(__dirname, 'docs', 'swagger.json'));
 });
-// serve redoc html
+
+// Serve redoc html
 app.get('/docs', (req, res) => {
-	res.sendFile('index.html', {root: './docs'});
+	res.sendFile(path.join(__dirname, 'docs', 'index.html'));
 });
 // initialize server
 app.listen(PORT, () => {
