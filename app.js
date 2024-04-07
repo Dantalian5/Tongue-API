@@ -9,9 +9,6 @@ import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import interactionRoutes from './routes/interactionRoutes.js';
 // import swagger
-// import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDoc from './docs/swagger.json' assert {type: 'json'};
 // import mongoDB
 import connectDB from './config/database.js';
 // create express app
@@ -35,16 +32,24 @@ app.use('/api', postRoutes);
 app.use('/api', interactionRoutes);
 // set port for local deployment
 const PORT = process.env.PORT || 3000;
-//
-//
-//
-//
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-//
-//
-//
-//
+// set helmet to allow redocly cdn to load
+app.use(
+	helmet.contentSecurityPolicy({
+		directives: {
+			'script-src': ["'self'", 'https://cdn.redoc.ly'],
+			'worker-src': ["'self'", 'blob:'],
+			'img-src': ["'self'", 'data:', 'https://cdn.redoc.ly'],
+		},
+	})
+);
+// serve redoc json to used on documentation
+app.get('/docs/swagger.json', (req, res) => {
+	res.sendFile('swagger.json', {root: './docs'});
+});
+// serve redoc html
+app.get('/docs', (req, res) => {
+	res.sendFile('index.html', {root: './docs'});
+});
 // initialize server
 app.listen(PORT, () => {
 	console.log(`Server running on port: ${PORT}`);
