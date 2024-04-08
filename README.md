@@ -36,7 +36,7 @@
 <h3 align="center">Tongue_API</h3>
 
   <p align="center">
-    RESTful API with full CRUD (Create, Read, Update, Delete) capabilities was developed as part of the "Tongue" Node.js project for <a href="https://www.start2impact.it">start2impact</a>. 
+    RESTful API with full CRUD (Create, Read, Update, Delete) capabilities, developed as part of the "Tongue" Node.js project for <a href="https://www.start2impact.it">start2impact</a>. 
     <br />
     <a href="https://tongue-api.vercel.app/docs/"><strong>Explore the docs »</strong></a>
     <br />
