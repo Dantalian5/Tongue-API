@@ -167,22 +167,85 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 
 #### Users
 
-- Create a User `(POST /api/users)`: Allows for the creation of a new user, requiring details such as nickname, age, and city.
-- Retrieve All Users `(GET /api/users)`: Fetches a list of all users, with the option to search based on specific criteria `(GET /api/users/search)`.
-- Retrieve, Update, and Delete a User by ID: Specific user details can be fetched `(GET /api/users/{id})`, updated `(PUT /api/users/{id})`, or deleted `(DELETE /api/users/{id})` using their unique ID.
+- **Create a New User**
+  - Endpoint: /users/
+  - Method: POST
+  - Description: Creates a new user in the database.
+  - Request Body: Includes nickname, age, and city.
+- **Get All Users**
+  - Endpoint: /users/
+  - Method: GET
+  - Description: Retrieves a list of all registered users.
+- **Search Users**
+  - Endpoint: /users/search
+  - Method: GET
+  - Description: Searches for users based on provided query parameters like userName, userAge, userMinAge, userMaxAge, and userCity.
+- **Get User by ID**
+  - Endpoint: /users/{id}
+  - Method: GET
+  - Description: Retrieves user information based on their unique ID.
+- **Update User by ID**
+  - Endpoint: /users/{id}
+  - Method: PUT
+  - Description: Updates user information based on their unique ID.
+- **Delete User by ID**
+  - Endpoint: /users/{id}
+  - Method: DELETE
+  - Description: Deletes a user based on their unique ID.
 
-#### Post
+#### Posts
 
-- Create a Post `(POST /api/posts)`: Enables the creation of a new post, linked to an existing user.
-- Retrieve All Posts `(GET /api/posts)`: Obtains a list of all posts, supporting a 'minify' query for less detailed responses.
-- Search Posts `(GET /api/posts/search)`: Allows for the retrieval of posts based on various search criteria.
-- Retrieve, Update, and Delete a Post by ID: Similar to users, individual posts can be accessed, modified, or removed using their unique ID `(GET, PUT, DELETE on /api/posts/{id})`.
+- **Create a New Post**
+  - Endpoint: /posts/
+  - Method: POST
+  - Description: Creates a new post associated with an existing user.
+- **Get All Posts**
+  - Endpoint: /posts/
+  - Method: GET
+  - Description: Retrieves a list of all posts, with an option to minify the results.
+- **Search Posts**
+  - Endpoint: /posts/search
+  - Method: GET
+  - Description: Searches for posts based on criteria like post and interaction dates, user city, etc.
+- **Get Post by ID**
+  - Endpoint: /posts/{id}
+  - Method: GET
+  - Description: Retrieves a single post by its ID, with an option to minify the results.
+- **Update Post by ID**
+  - Endpoint: /posts/{id}
+  - Method: PUT
+  - Description: Updates the details of an existing post.
+- **Delete Post by ID**
+  - Endpoint: /posts/{id}
+  - Method: DELETE
+  - Description: Deletes a post from the database.
 
 #### Interactions
 
-- Create an Interaction `(POST /api/interactions)`: Facilitates the addition of a new interaction, such as a like or comment, to a post by a user.
-- Retrieve All Interactions `(GET /api/interactions)`: Lists all interactions, with a 'minify' option for condensed output.
-- Search, Retrieve, Update, and Delete an Interaction: Detailed interaction data can be searched, accessed, altered, or deleted, all identified by a unique ID `(GET, PUT, DELETE on /api/interactions/{id})`.
+- **Create a New Interaction**
+  - Endpoint: /interactions/
+  - Method: POST
+  - Description: Creates a new interaction related to a user and a post.
+- **Get All Interactions**
+  - Endpoint: /interactions/
+  - Method: GET
+  - Description: Retrieves a list of all interactions, with an option to minify the results.
+- **Search Interactions**
+  - Endpoint: /interactions/search
+  - Method: GET
+  - Description: Searches for interactions based on various criteria like dates, user ID, user name, and city.
+- **Get Interaction by ID**
+  - Endpoint: /interactions/{id}
+  - Method: GET
+  - Description: Retrieves a single interaction by its ID, with an option to minify the results.
+- **Update Interaction by ID**
+  - Endpoint: /interactions/{id}
+  - Method: PUT
+  - Description: Updates the details of an existing interaction.
+- **Delete Interaction by ID**
+  - Endpoint: /interactions/{id}
+  - Method: DELETE
+  - Description: Deletes an interaction from the database.
 
 The API is designed to be intuitive, ensuring ease of use while providing detailed responses and error handling to facilitate integration and interaction with various front-end systems or third-party services.
 
